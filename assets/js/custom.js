@@ -1,19 +1,42 @@
 $(document).ready(function(){
     let countCart = 0;
-    console.log('local', JSON.parse(localStorage.getItem('shop_cart')))
     if (localStorage.getItem('shop_cart')=== null) {
         countCart = 0;
     } else {
         let shopCart = JSON.parse(localStorage.getItem('shop_cart'))
         shopCart.map((el) => {
-            console.log(el)
             countCart += el.productQty
         })
     }
     document.getElementById("data-count").innerHTML= countCart
-});
+})
 
-function setModalPorductDetail(shopCartTemp) {
+$('#productDetailModal').on('hidden.bs.modal', function () {
+    var shopCartTemp = JSON.parse(localStorage.shop_cart)
+    let dataTemp = {}
+    var shopCart = shopCartTemp.reduce(function(data, el) {
+        var id = el.productId;
+        if (!dataTemp[id] && parseInt(el.productQty) > 0) {
+            dataTemp[id] = {
+            productId: el.productId,
+            productName: el.productName,
+            productPrice: el.productPrice,
+            productImg: el.productImg,
+            productQty: el.productQty,
+            }
+            data.push(dataTemp[id])
+        }
+        return data
+    }, [])
+
+    localStorage.setItem("shop_cart", JSON.stringify(shopCart));  //put the object back
+})
+
+function setProductId(id) {
+    document.getElementById('productId').value = id
+}
+
+function setModalProductDetail(shopCartTemp) {
     var dataTemp = {}
     var shopCart = shopCartTemp.reduce(function(data, el) {
         var id = el.productId;
@@ -32,12 +55,14 @@ function setModalPorductDetail(shopCartTemp) {
     if(shopCart.length) {
         document.getElementById("productDetailBody").innerHTML = ''
         let detailProduct = "";
+        let subtotal = 0
         shopCart.forEach(function(item, i){
             const price = parseInt(item.productPrice)
             const qty = parseInt(item.productQty)
-            const subtotal = parseInt(item.productPrice) * parseInt(item.productQty)
-            detailProduct += '<div class="col-md-6"><img src="assets/img/products/'+item.productImg+'" alt="" width="80%"></div>'
-            detailProduct += '<div class="col-md-6">'
+            const total = parseInt(item.productPrice) * parseInt(item.productQty)
+            subtotal += total
+            detailProduct += '<div class="col-md-5"><img src="assets/img/products/'+item.productImg+'" alt="" width="80%"></div>'
+            detailProduct += '<div class="col-md-7">'
             detailProduct += '<h5 class="mb-1 mt-2"><b>'+item.productName+'</b></h5>';
             detailProduct += '<p class="mb-2"> Rp. '+price.toLocaleString()+'</p>';
             if (qty > 1) {
@@ -45,19 +70,19 @@ function setModalPorductDetail(shopCartTemp) {
                 <div class="form-group col-md-5 pl-0">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-number btn-number-left" data-type="minus" data-field="quant-${i}[1]"><i class="fa fa-minus" aria-hidden="true"></i></button>`
+                            <button type="button" onclick="setProductId(${item.productId})" class="btn btn-default btn-number btn-number-left" data-type="minus" data-field="quant-${i}[1]"><i class="fa fa-minus" aria-hidden="true"></i></button>`
             } else {
                 detailProduct += `<div class=form-row row">
                 <div class="form-group col-md-5 pl-0">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-number btn-number-left" disabled="disabled" data-type="minus" data-field="quant-${i}[1]"><i class="fa fa-minus" aria-hidden="true"></i></button>`
+                            <button type="button" onclick="setProductId(${item.productId})" class="btn btn-default btn-number btn-number-left" disabled="disabled" data-type="minus" data-field="quant-${i}[1]"><i class="fa fa-minus" aria-hidden="true"></i></button>`
             }
             detailProduct += `
                     </span>
                     <input type="text" name="quant-${i}[1]" class="form-control input-number" value=${qty} min="1" max="1000" name="qtyProduct">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default btn-number btn-number-right" data-type="plus" data-field="quant-${i}[1]""><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <button type="button" onclick="setProductId(${item.productId})" class="btn btn-default btn-number btn-number-right" data-type="plus" data-field="quant-${i}[1]""><i class="fa fa-plus" aria-hidden="true"></i></button>
                     </span>
                 </div>
             </div>
@@ -66,15 +91,23 @@ function setModalPorductDetail(shopCartTemp) {
                     <button type="button" class="btn btn-danger" onclick="removeProductFromCart(${item.productId})"><i class="fa fa-trash" aria-hidden="true"></i></button>
                 </span>
             </div>
-            <p><b>Subtotal : Rp. ${subtotal.toLocaleString()}</b></p></div>`;
+            <p><b>Total : Rp. <b id="total-${item.productId}">${total.toLocaleString()}</b></b></p></div>`;
             detailProduct += '</div>'
-        });
-        detailProduct += `<div class="col-md-12 text-right">
-        <a class="btn btn__primary" data-dismiss="modal" href="#product">Continue Shopping</a>
-        <button type="button" class="btn btn__primary" data-dismiss="modal" data-toggle="modal" data-target="#checkoutModal">Checkout</button>
-      </div>`
+        })
+        detailProduct += `<div class="col-md-12">
+        <div class="row p__detail-footer">
+            <div class="col-md-5"></div>
+            <div class="col-md-4" style="padding-left: 10px">
+                <b>SubTotal : Rp. <b id="subtotal">${subtotal.toLocaleString()}</b></b>
+            </div>
+            <div class="col-md-3 text-right">
+                <button type="button" class="btn btn__success" onclick="checkoutDetail()">Checkout</button>
+            </div>
+        </div>
+        </div>`
 
-        document.getElementById("productDetailBody").innerHTML = detailProduct;
+        document.getElementById("productDetailBody").innerHTML = detailProduct
+        document.getElementById('subtotal-checkout').value = subtotal
     } else {
         document.getElementById("productDetailBody").innerHTML = '<div class="col-md-12"><h4 class="text-center">Empty cart.</h4></div>'
     }
@@ -82,6 +115,7 @@ function setModalPorductDetail(shopCartTemp) {
 
 function productDetail(productId, productName, price, productImg) {
     document.getElementById("productName").innerHTML=productName;
+    document.getElementById("productImg").innerHTML=`<img src="assets/img/products/${productImg}" alt="" width="100%" id="detail-pouch-1">`;
     document.getElementById("productPrice").innerHTML='Rp. ' +price.toLocaleString();
     document.getElementById('productId').value = productId
 
@@ -111,12 +145,12 @@ function addToCart() {
     $('#productDetailModal').modal('hide')
 
     var shopCartTemp = JSON.parse(localStorage.shop_cart)
-    var productId = $('#productId').val();
+    var productId = $('#productId').val()
 
     for (var i = 0; i < shopCartTemp.length; i++) {
-        if(parseInt(productId) === parseInt(shopCartTemp[i].productId)){  //look for match with name
-            shopCartTemp[i].productQty += parseInt(qty);  //add two
-            break;  //exit loop since you found the person
+        if(parseInt(productId) === parseInt(shopCartTemp[i].productId)){ 
+            shopCartTemp[i].productQty += parseInt(qty)
+            break
         }
      }
 
@@ -141,18 +175,19 @@ function addToCart() {
 
     localStorage.setItem("shop_cart", JSON.stringify(shopCart));  //put the object back
 
-    setModalPorductDetail(shopCart)
+    setModalProductDetail(shopCart)
 }
 
 function clearCart() {
-    document.getElementById("data-count").innerHTML=0;
+    document.getElementById("data-count").innerHTML=0
+    localStorage.clear()
     $('#checkoutModal').modal('hide')
 }
 
 function removeProductFromCart(productId) {
     var shopCartTemp = JSON.parse(localStorage.shop_cart)
     const shopCart = shopCartTemp.filter(item => parseInt(item.productId) !== parseInt(productId))
-    setModalPorductDetail(shopCart)
+    setModalProductDetail(shopCart)
     var totalCart = 0
     shopCart.map((el) => {
         totalCart += el.productQty
@@ -168,8 +203,15 @@ function showCart() {
     } else {
         shopCart = JSON.parse(localStorage.getItem('shop_cart'))
     }
-    setModalPorductDetail(shopCart)
+    setModalProductDetail(shopCart)
     $('#summaryModal').modal('show')
+}
+
+function checkoutDetail() {
+    $('#summaryModal').modal('hide')
+    var subtotal = $('#subtotal-checkout').val()
+    document.getElementById("subtotal-checkout-label").innerHTML = subtotal.toLocaleString()
+    $('#checkoutModal').modal('show')
 }
 
 $(document).on('click', '.btn-number', function(e){
@@ -181,40 +223,41 @@ $(document).on('click', '.btn-number', function(e){
     var currentVal = parseInt(input.val());
     if (!isNaN(currentVal)) {
         if(type == 'minus') {
-            var countCart = document.getElementById("data-count").innerText
-            var total = parseInt(countCart) - 1
-            document.getElementById("data-count").innerHTML=total
+            var total = 0
 
             var shopCartTemp = JSON.parse(localStorage.shop_cart)
-    var productId = $('#productId').val();
 
-    for (var i = 0; i < shopCartTemp.length; i++) {
-        if(parseInt(productId) === parseInt(shopCartTemp[i].productId)){  //look for match with name
-            shopCartTemp[i].productQty += parseInt(qty);  //add two
-            break;  //exit loop since you found the person
-        }
-     }
+            var dataTemp = {}
+            var productId = $('#productId').val()
+            let subtotal = 0
+            var shopCart = shopCartTemp.reduce(function(data, el) {
+                var id = el.productId;
+                if (!dataTemp[id]) {
+                    let qty = el.productQty
+                    if (parseInt(el.productId) === parseInt(productId)) {
+                        qty = el.productQty - 1
+                        let total = parseInt(el.productPrice) * parseInt(qty)
+                        document.getElementById("total-"+id).innerHTML=total.toLocaleString()
+                    }
+                    subtotal += parseInt(el.productPrice) * parseInt(qty)
+                    total += qty
+                    dataTemp[id] = {
+                    productId: el.productId,
+                    productName: el.productName,
+                    productPrice: el.productPrice,
+                    productImg: el.productImg,
+                    productQty: qty,
+                    }
+                    data.push(dataTemp[id]);
+                }
+                return data
+            }, [])
 
-    var dataTemp = {}
-    var shopCart = shopCartTemp.reduce(function(data, el) {
-        var id = el.productId;
-        if (!dataTemp[id]) {
-            total += el.productQty
-            dataTemp[id] = {
-            productId: el.productId,
-            productName: el.productName,
-            productPrice: el.productPrice,
-            productImg: el.productImg,
-            productQty: el.productQty,
-            }
-            data.push(dataTemp[id]);
-        }
-        return data;
-    }, [])
+            document.getElementById("data-count").innerHTML=total
+            document.getElementById("subtotal").innerHTML=subtotal.toLocaleString()
+            document.getElementById('subtotal-checkout').value = subtotal
 
-    document.getElementById("data-count").innerHTML=total;
-
-    localStorage.setItem("shop_cart", JSON.stringify(shopCart));  //put the object back
+            localStorage.setItem("shop_cart", JSON.stringify(shopCart));  //put the object back
             
             if(currentVal > input.attr('min')) {
                 input.val(currentVal - 1).change();
@@ -224,9 +267,40 @@ $(document).on('click', '.btn-number', function(e){
             }
 
         } else if(type == 'plus') {
-            var countCart = document.getElementById("data-count").innerText
-            var total = parseInt(countCart) + 1
+            var total = 0
+            let subtotal = 0
+            var shopCartTemp = JSON.parse(localStorage.shop_cart)
+
+            var dataTemp = {}
+            var productId = $('#productId').val()
+            var shopCart = shopCartTemp.reduce(function(data, el) {
+                var id = el.productId;
+                if (!dataTemp[id]) {
+                    let qty = el.productQty
+                    if (parseInt(el.productId) === parseInt(productId)) {
+                        qty = el.productQty + 1
+                        let total = parseInt(el.productPrice) * parseInt(qty)
+                        document.getElementById("total-"+id).innerHTML=total.toLocaleString()
+                    }
+                    subtotal += parseInt(el.productPrice) * parseInt(qty)
+                    total += qty
+                    dataTemp[id] = {
+                    productId: el.productId,
+                    productName: el.productName,
+                    productPrice: el.productPrice,
+                    productImg: el.productImg,
+                    productQty: qty,
+                    }
+                    data.push(dataTemp[id]);
+                }
+                return data
+            }, [])
+
             document.getElementById("data-count").innerHTML=total
+            document.getElementById("subtotal").innerHTML=subtotal.toLocaleString()
+            document.getElementById('subtotal-checkout').value = subtotal
+
+            localStorage.setItem("shop_cart", JSON.stringify(shopCart));  //put the object back
 
             if(currentVal < input.attr('max')) {
                 input.val(currentVal + 1).change();
@@ -245,11 +319,13 @@ $(document).on('focusin', '.input-number', function(){
    $(this).data('oldValue', $(this).val());
 });
 
-$(document).on('change', '.input-number', function(){
-    
+$(document).on('change', '.input-number', function(){    
     minValue =  parseInt($(this).attr('min'));
     maxValue =  parseInt($(this).attr('max'));
     valueCurrent = parseInt($(this).val());
+    // console.log('minValue', minValue)
+    // console.log('maxValue', maxValue)
+    // console.log('valueCurrent', valueCurrent)
     
     name = $(this).attr('name');
     if(valueCurrent >= minValue) {

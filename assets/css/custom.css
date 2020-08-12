@@ -44,6 +44,18 @@ a.cart span small {
     font-family: "Montserrat", sans-serif;
 }
 
+.btn__success {
+  background: linear-gradient(45deg, #1de099, #1dc8cd);
+  display: inline-block;
+  padding: 6px 30px;
+  border-radius: 20px;
+  color: #fff;
+  transition: none;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Montserrat", sans-serif;
+}
+
 .btn-number-left {
   background-color: #fff;
   border-color: #ccc;
@@ -62,9 +74,19 @@ a.cart span small {
   margin-left: 30px;
 }
 
-/* .logo__image, img {
-  width: 80px;
-} */
+.p__detail-footer {
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: end;
+  padding: 0px 2px 0 px;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: calc(.3rem - 1px);
+  border-bottom-left-radius: calc(.3rem - 1px);
+  padding-top: 15px;
+}
 
 .container {
   max-width: 1190px;
