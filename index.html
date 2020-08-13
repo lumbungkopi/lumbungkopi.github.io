@@ -50,29 +50,25 @@
             <div class="col-md-6">
               <h3><b id="productName"></b></h3>
               <h5><b id="productPrice"></b></h5>
-              <small id="total-1" hidden></small>
-              <small id="total-2" hidden></small>
-              <small id="total-3" hidden></small>
-              <small id="subtotal" hidden></small>
-              <ul>
+              <ul style="margin-left: -20px;">
                 <li>Terbuat dari 100% biji kopi pilihan khas Karawang</li>
                 <li>Kopi dibuat dngan metode roasting kusus untuk menghasilkan cita rasa Alami</li>
                 <li>Varian ini adalah produk dengan kemasan berat bersih 20gram</li>
                 <li>Kemasan sachet spesial Mix sudah 3 in 1 dengan creamer dan gula</li>
               </ul>
               <form action="javascript:void(0)">
+                <input type="text" id="productId" value="1" hidden>
                 <div class="form-row">
                   <div class="col-md-5">
-                    <input type="text" id="productId" value="1" hidden>
                     <div class="input-group">
                       <span class="input-group-btn">
-                          <button type="button" class="btn btn-default btn-number btn-number-left" disabled="disabled" data-type="minus" data-field="quant[1]">
+                          <button type="button" class="btn btn-default btn-number-add-cart btn-number-left" disabled="disabled" data-type="minus" data-field="quant[1]">
                             <i class="fa fa-minus" aria-hidden="true"></i>
                           </button>
                       </span>
                       <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="1000" id="qtyProduct">
                       <span class="input-group-btn">
-                          <button type="button" class="btn btn-default btn-number btn-number-right" data-type="plus" data-field="quant[1]">
+                          <button type="button" class="btn btn-default btn-number-add-cart btn-number-right" data-type="plus" data-field="quant[1]">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                           </button>
                       </span>

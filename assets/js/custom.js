@@ -9,6 +9,14 @@ $(document).ready(function(){
         })
     }
     document.getElementById("data-count").innerHTML= countCart
+
+    // Hack to enable multiple modals by making sure the .modal-open class
+    // is set to the <body> when there is at least one modal open left
+    $('body').on('hidden.bs.modal', function () {
+        // if($('.modal.in').length > 0) {
+        $('body').addClass('modal-open')
+        // }
+    })
 })
 
 $('#productDetailModal').on('hidden.bs.modal', function () {
@@ -101,7 +109,7 @@ function setModalProductDetail(shopCartTemp) {
                 <b>SubTotal : Rp. <b id="subtotal">${subtotal.toLocaleString()}</b></b>
             </div>
             <div class="col-md-3 text-right">
-                <button type="button" class="btn btn__success" onclick="checkoutDetail()">Checkout</button>
+                <button type="button" class="btn btn__success" data-dismiss="modal" onclick="checkoutDetail()">Checkout</button>
             </div>
         </div>
         </div>`
@@ -209,7 +217,7 @@ function showCart() {
 
 function checkoutDetail() {
     $('#summaryModal').modal('hide')
-    var subtotal = $('#subtotal-checkout').val()
+    var subtotal = parseInt($('#subtotal-checkout').val())
     document.getElementById("subtotal-checkout-label").innerHTML = subtotal.toLocaleString()
     $('#checkoutModal').modal('show')
 }
@@ -237,7 +245,10 @@ $(document).on('click', '.btn-number', function(e){
                     if (parseInt(el.productId) === parseInt(productId)) {
                         qty = el.productQty - 1
                         let total = parseInt(el.productPrice) * parseInt(qty)
-                        document.getElementById("total-"+id).innerHTML=total.toLocaleString()
+                        let elemTotal = document.getElementById("total-"+id)
+                        if (elemTotal) {
+                            elemTotal.innerHTML=total.toLocaleString()
+                        }
                     }
                     subtotal += parseInt(el.productPrice) * parseInt(qty)
                     total += qty
@@ -254,7 +265,10 @@ $(document).on('click', '.btn-number', function(e){
             }, [])
 
             document.getElementById("data-count").innerHTML=total
-            document.getElementById("subtotal").innerHTML=subtotal.toLocaleString()
+            let elemSubtotal = document.getElementById("subtotal")
+            if (elemSubtotal) {
+                elemSubtotal.innerHTML=subtotal.toLocaleString()
+            }
             document.getElementById('subtotal-checkout').value = subtotal
 
             localStorage.setItem("shop_cart", JSON.stringify(shopCart));  //put the object back
@@ -280,7 +294,10 @@ $(document).on('click', '.btn-number', function(e){
                     if (parseInt(el.productId) === parseInt(productId)) {
                         qty = el.productQty + 1
                         let total = parseInt(el.productPrice) * parseInt(qty)
-                        document.getElementById("total-"+id).innerHTML=total.toLocaleString()
+                        let elemTotal = document.getElementById("total-"+id)
+                        if (elemTotal) {
+                            elemTotal.innerHTML=total.toLocaleString()
+                        }
                     }
                     subtotal += parseInt(el.productPrice) * parseInt(qty)
                     total += qty
@@ -297,11 +314,44 @@ $(document).on('click', '.btn-number', function(e){
             }, [])
 
             document.getElementById("data-count").innerHTML=total
-            document.getElementById("subtotal").innerHTML=subtotal.toLocaleString()
+            let elemSubtotal = document.getElementById("subtotal")
+            if (elemSubtotal) {
+                elemSubtotal.innerHTML=subtotal.toLocaleString()
+            }
             document.getElementById('subtotal-checkout').value = subtotal
 
             localStorage.setItem("shop_cart", JSON.stringify(shopCart));  //put the object back
 
+            if(currentVal < input.attr('max')) {
+                input.val(currentVal + 1).change();
+            }
+            if(parseInt(input.val()) == input.attr('max')) {
+                $(this).attr('disabled', true);
+            }
+
+        }
+    } else {
+        input.val(0);
+    }
+});
+
+$(document).on('click', '.btn-number-add-cart', function(e){
+    e.preventDefault();
+    
+    fieldName = $(this).attr('data-field');
+    type      = $(this).attr('data-type');
+    var input = $("input[name='"+fieldName+"']");
+    var currentVal = parseInt(input.val());
+    if (!isNaN(currentVal)) {
+        if(type == 'minus') {
+            if(currentVal > input.attr('min')) {
+                input.val(currentVal - 1).change();
+            } 
+            if(parseInt(input.val()) == input.attr('min')) {
+                $(this).attr('disabled', true);
+            }
+
+        } else if(type == 'plus') {
             if(currentVal < input.attr('max')) {
                 input.val(currentVal + 1).change();
             }
