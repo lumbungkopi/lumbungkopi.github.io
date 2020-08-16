@@ -379,7 +379,9 @@ $(document).on('change', '.input-number', function(){
     
     name = $(this).attr('name');
     if(valueCurrent >= minValue) {
+        console.log('clicked')
         $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+        $(".btn-number-left[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
     } else {
         alert('Sorry, the minimum value was reached');
         $(this).val($(this).data('oldValue'));
