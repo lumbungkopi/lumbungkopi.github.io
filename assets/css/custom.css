@@ -101,7 +101,7 @@ a.cart span small {
   border-top: 1px solid #dee2e6;
   border-bottom-right-radius: calc(.3rem - 1px);
   border-bottom-left-radius: calc(.3rem - 1px);
-  padding-top: 15px;
+  padding: 10px;
 }
 
 .container {
@@ -115,6 +115,14 @@ a.cart span small {
 
 .modal {
   overflow-y:auto;
+}
+
+#qtyProduct {
+  position: relative;
+  width: 20%;
+  min-width: 0;
+  margin-bottom: 0;
+  flex: none;
 }
 
 /* Responsive */
@@ -162,10 +170,75 @@ a.cart span small {
   }
 
   .__input_number_modal {
-    width: 40%;
+    width: 50%;
   }
 
   .__remove_btn {
-    width: 60%;
+    width: 30%;
+    text-align: left;
+  }
+
+  #productDetailBody {
+    text-align: center;
+  }
+
+  .form__row__checkout {
+    margin-left: 25%;
+  }
+}
+
+@media (max-width: 992px) {
+  .logo__image {
+    float: left;
+    margin-left: 15px;
+    margin-top: -10px;
+  }
+
+  .__logo {
+    width: 50px;
+  }
+
+  .scrollto {
+    font-size: 18px;
+  }
+
+  #logo {
+    margin-top: -5px;
+  }
+
+  a.cart span {
+    position: relative;
+  }
+
+  a.cart span small {
+    right: -25px;
+  }
+
+  #qtyProduct {
+    position: relative;
+    width: 25%;
+    min-width: 0;
+    margin-bottom: 0;
+    flex: none;
+  }
+
+  .input__number {
+    position: relative;
+    width: 15%;
+    min-width: 0;
+    margin-bottom: 0;
+    flex: none;
+  }
+
+  .__input_number_modal {
+    width: 50%;
+  }
+
+  .__remove_btn {
+    width: 30%;
+  }
+
+  .form__row__checkout {
+    margin-left: 25%;
   }
 }

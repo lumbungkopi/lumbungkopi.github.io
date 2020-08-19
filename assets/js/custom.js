@@ -74,13 +74,13 @@ function setModalProductDetail(shopCartTemp) {
             detailProduct += '<h5 class="mb-1 mt-2"><b>'+item.productName+'</b></h5>';
             detailProduct += '<p class="mb-2"> Rp. '+price.toLocaleString()+'</p>';
             if (qty > 1) {
-                detailProduct += `<div class="form-row row">
+                detailProduct += `<div class="form-row row form__row__checkout">
                 <div class="form-group col-md-5 pl-0 __input_number_modal">
                     <div class="input-group">
                         <span class="input-group-btn">
                             <button type="button" onclick="setProductId(${item.productId})" class="btn btn-default btn-number btn-number-left" data-type="minus" data-field="quant-${i}[1]"><i class="fa fa-minus" aria-hidden="true"></i></button>`
             } else {
-                detailProduct += `<div class="form-row row">
+                detailProduct += `<div class="form-row row form__row__checkout">
                 <div class="form-group col-md-5 pl-0 __input_number_modal">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -106,7 +106,7 @@ function setModalProductDetail(shopCartTemp) {
         detailProduct += `<div class="col-md-12">
         <div class="row p__detail-footer">
             <div class="col-md-5"></div>
-            <div class="col-md-4" style="padding-left: 10px">
+            <div class="col-md-7 text-right">
                 <b>SubTotal : Rp. <b id="subtotal">${subtotal.toLocaleString()}</b></b>
             </div>
         </div>
@@ -114,7 +114,7 @@ function setModalProductDetail(shopCartTemp) {
         detailProduct += `<div class="col-md-12">
         <div class="row p__detail-footer">
             <div class="col-md-5"></div>
-            <div class="col-md-7 text-right">
+            <div class="col-md-7 text-right" style="margin-bottom: -15px;">
                 <button type="button" class="btn btn__success" data-dismiss="modal" onclick="checkoutDetail()">Checkout</button>
             </div>
         </div>
@@ -226,6 +226,7 @@ function checkoutDetail() {
     $('#summaryModal').modal('hide')
     var subtotal = parseInt($('#subtotal-checkout').val())
     document.getElementById("subtotal-checkout-label").innerHTML = subtotal.toLocaleString()
+    document.getElementById("totalPayment").innerHTML = subtotal.toLocaleString()
     $('#checkoutModal').modal('show')
 }
 

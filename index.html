@@ -59,7 +59,7 @@
               <form action="javascript:void(0)">
                 <input type="text" id="productId" value="1" hidden>
                 <div class="form-row">
-                  <div class="col-md-5 pb-3">
+                  <div class="col-md-12 pb-3">
                     <div class="input-group">
                       <span class="input-group-btn">
                           <button type="button" class="btn btn-default btn-number-add-cart btn-number-left" disabled="disabled" data-type="minus" data-field="quant[1]">
@@ -74,7 +74,7 @@
                       </span>
                     </div>
                   </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-12">
                     <a type="button" onclick="addToCart()" class="btn__primary"><span>Add to cart</span></a>
                   </div>
                 </div>
@@ -180,7 +180,7 @@
                         Bank Name : BCA <br>
                         Account Number : 12 3456 789 <br>
                         Account Name  : PT. Lumbung Kopi <br>
-                        Total Amount of Payment: Rp. <span style="color: black;">230,000</span>
+                        Total Amount of Payment: Rp. <span id="totalPayment" style="color: black;">230,000</span>
                     </p>
                     <div class="col-md-12 text-right">
                       <button type="button" class="btn btn__success" onclick="clearCart()">Complete Order</button>
