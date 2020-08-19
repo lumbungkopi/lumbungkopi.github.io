@@ -80,7 +80,7 @@ function setModalProductDetail(shopCartTemp) {
                         <span class="input-group-btn">
                             <button type="button" onclick="setProductId(${item.productId})" class="btn btn-default btn-number btn-number-left" data-type="minus" data-field="quant-${i}[1]"><i class="fa fa-minus" aria-hidden="true"></i></button>`
             } else {
-                detailProduct += `<div class=form-row row">
+                detailProduct += `<div class="form-row row">
                 <div class="form-group col-md-5 pl-0 __input_number_modal">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -99,6 +99,7 @@ function setModalProductDetail(shopCartTemp) {
                     <button type="button" class="btn btn-danger" onclick="removeProductFromCart(${item.productId})"><i class="fa fa-trash" aria-hidden="true"></i></button>
                 </span>
             </div>
+            <br/>
             <p><b>Total : Rp. <b id="total-${item.productId}">${total.toLocaleString()}</b></b></p></div>`;
             detailProduct += '</div>'
         })
