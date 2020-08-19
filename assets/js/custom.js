@@ -12,11 +12,11 @@ $(document).ready(function(){
 
     // Hack to enable multiple modals by making sure the .modal-open class
     // is set to the <body> when there is at least one modal open left
-    $('body').on('hidden.bs.modal', function () {
-        // if($('.modal.in').length > 0) {
-        $('body').addClass('modal-open')
-        // }
-    })
+    // $('body').on('hidden.bs.modal', function () {
+    //     // if($('.modal.in').length > 0) {
+    //         $('body').addClass('modal-open')
+    //     // }
+    // })
 })
 
 $('#productDetailModal').on('hidden.bs.modal', function () {
@@ -74,27 +74,27 @@ function setModalProductDetail(shopCartTemp) {
             detailProduct += '<h5 class="mb-1 mt-2"><b>'+item.productName+'</b></h5>';
             detailProduct += '<p class="mb-2"> Rp. '+price.toLocaleString()+'</p>';
             if (qty > 1) {
-                detailProduct += `<div class=form-row row">
-                <div class="form-group col-md-5 pl-0">
+                detailProduct += `<div class="form-row row">
+                <div class="form-group col-md-5 pl-0 __input_number_modal">
                     <div class="input-group">
                         <span class="input-group-btn">
                             <button type="button" onclick="setProductId(${item.productId})" class="btn btn-default btn-number btn-number-left" data-type="minus" data-field="quant-${i}[1]"><i class="fa fa-minus" aria-hidden="true"></i></button>`
             } else {
                 detailProduct += `<div class=form-row row">
-                <div class="form-group col-md-5 pl-0">
+                <div class="form-group col-md-5 pl-0 __input_number_modal">
                     <div class="input-group">
                         <span class="input-group-btn">
                             <button type="button" onclick="setProductId(${item.productId})" class="btn btn-default btn-number btn-number-left" disabled="disabled" data-type="minus" data-field="quant-${i}[1]"><i class="fa fa-minus" aria-hidden="true"></i></button>`
             }
             detailProduct += `
                     </span>
-                    <input type="text" name="quant-${i}[1]" class="form-control input-number" value=${qty} min="1" max="1000" name="qtyProduct">
+                    <input type="text" name="quant-${i}[1]" class="form-control input-number input__number" value=${qty} min="1" max="1000" name="qtyProduct">
                     <span class="input-group-btn">
                         <button type="button" onclick="setProductId(${item.productId})" class="btn btn-default btn-number btn-number-right" data-type="plus" data-field="quant-${i}[1]""><i class="fa fa-plus" aria-hidden="true"></i></button>
                     </span>
                 </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7 __remove_btn">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-danger" onclick="removeProductFromCart(${item.productId})"><i class="fa fa-trash" aria-hidden="true"></i></button>
                 </span>
@@ -108,7 +108,12 @@ function setModalProductDetail(shopCartTemp) {
             <div class="col-md-4" style="padding-left: 10px">
                 <b>SubTotal : Rp. <b id="subtotal">${subtotal.toLocaleString()}</b></b>
             </div>
-            <div class="col-md-3 text-right">
+        </div>
+        </div>`
+        detailProduct += `<div class="col-md-12">
+        <div class="row p__detail-footer">
+            <div class="col-md-5"></div>
+            <div class="col-md-7 text-right">
                 <button type="button" class="btn btn__success" data-dismiss="modal" onclick="checkoutDetail()">Checkout</button>
             </div>
         </div>
@@ -190,6 +195,7 @@ function clearCart() {
     document.getElementById("data-count").innerHTML=0
     localStorage.clear()
     $('#checkoutModal').modal('hide')
+    $('#thanksModal').modal('show')
 }
 
 function removeProductFromCart(productId) {

@@ -36,8 +36,8 @@
   <div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog" aria-labelledby="productDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="productDetailModalLabel">Product Detail</h5>
+        <div class="modal-header" style="display: block; padding: 0;">
+          <h5 class="modal-title text-center modal__title" id="productDetailModalLabel">Product Detail</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -59,7 +59,7 @@
               <form action="javascript:void(0)">
                 <input type="text" id="productId" value="1" hidden>
                 <div class="form-row">
-                  <div class="col-md-5">
+                  <div class="col-md-5 pb-3">
                     <div class="input-group">
                       <span class="input-group-btn">
                           <button type="button" class="btn btn-default btn-number-add-cart btn-number-left" disabled="disabled" data-type="minus" data-field="quant[1]">
@@ -93,8 +93,8 @@
   <div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="summaryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="summaryModalLabel">Cart</h5>
+        <div class="modal-header" style="display: block; padding: 0;">
+          <h5 class="modal-title text-center modal__title" id="summaryModalLabel">Cart</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -115,8 +115,8 @@
   <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+        <div class="modal-header" style="display: block; padding: 0;">
+          <h5 class="modal-title text-center modal__title" id="checkoutModalLabel">Checkout</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -197,12 +197,35 @@
       </div>
     </div>
   </div>
+
+  <!-- modal thank you -->
+  <!-- Modal Summary -->
+  <div class="modal fade" id="thanksModal" tabindex="-1" role="dialog" aria-labelledby="thanksModalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" style="overflow-y:auto;">
+        <div class="modal-header" style="display: block; padding: 0;">
+          <h5 class="modal-title text-center modal__title" id="thanksModalModalLabel">Order Completed</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="" class="row">
+            <div class="col-md-12"><h4 class="text-center">Thank you for order.</h4></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn__primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   
 
   <!-- ======= Header ======= -->
   <header id="header" class="header-transparent">
     <div class="logo__image">
-      <a href="#"><img src="assets/img/logo/logo-gold.png" alt="" width="80px"></a>
+      <a href="#"><img src="assets/img/logo/logo-gold.png" alt="" class="__logo"></a>
     </div>
     <div class="container">
 

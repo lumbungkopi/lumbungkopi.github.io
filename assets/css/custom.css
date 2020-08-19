@@ -74,6 +74,10 @@ a.cart span small {
   margin-left: 55px;
 }
 
+.__logo {
+  width: 80px;
+}
+
 .p__detail-footer {
   display: flex;
   -ms-flex-wrap: wrap;
@@ -90,4 +94,66 @@ a.cart span small {
 
 .container {
   max-width: 1190px;
+}
+
+.modal__title {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.modal {
+  overflow-y:auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .logo__image {
+    float: left;
+    margin-left: 15px;
+    margin-top: -10px;
+  }
+
+  .__logo {
+    width: 50px;
+  }
+
+  .scrollto {
+    font-size: 18px;
+  }
+
+  #logo {
+    margin-top: -5px;
+  }
+
+  a.cart span {
+    position: relative;
+  }
+
+  a.cart span small {
+    right: -25px;
+  }
+
+  #qtyProduct {
+    position: relative;
+    width: 15%;
+    min-width: 0;
+    margin-bottom: 0;
+    flex: none;
+  }
+
+  .input__number {
+    position: relative;
+    width: 15%;
+    min-width: 0;
+    margin-bottom: 0;
+    flex: none;
+  }
+
+  .__input_number_modal {
+    width: 40%;
+  }
+
+  .__remove_btn {
+    width: 20%;
+  }
 }
